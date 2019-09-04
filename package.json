@@ -20,7 +20,6 @@
     "eslint": "^6.3.0",
     "jest": "^24.9.0",
     "nodemon": "^1.19.2",
-    "superagent": "^5.1.0",
     "supertest": "^4.0.2"
   },
   "dependencies": {
