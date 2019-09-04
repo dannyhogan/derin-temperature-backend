@@ -19,7 +19,7 @@ describe('temperatureNetwork routes', () => {
   let temperature = null;
   let location = null;
 
-  beforeEach(async () => {
+  beforeEach(async() => {
     location = await Location.create({
       name: 'Mars'
     });
@@ -42,6 +42,31 @@ describe('temperatureNetwork routes', () => {
       .then(res => {
         expect(res.body.id).toEqual(expect.any(String));
         expect(res.status).toEqual(200);
+      });
+  });
+
+  it('will send a request to server and send status code of 204 upon deleting ID', () => {
+    return request(app)
+      .delete('/deregister')
+      .send({ id: location._id })
+      .then(res => {
+        expect(res.status).toEqual(204);
+      });
+  });
+
+  it('records new temps on post request to /temp', () => {
+    return request(app)
+      .post(`/temp/${location._id}`)
+      .send({ temperature: 40 })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          temperature: 40,
+          location: location._id.toString(),
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+          __v: 0
+        });
       });
   });
 });
